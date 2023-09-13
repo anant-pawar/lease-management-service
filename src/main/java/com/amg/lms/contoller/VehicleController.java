@@ -35,17 +35,20 @@ public class VehicleController {
     }
 
     @PutMapping("/{id}")
-    public Vehicle updateVehicle(@PathVariable("id") String id, @RequestBody VehicleUpsert vehicle) {
-        return service.updateVehicle(id, vehicle);
+    public ResponseEntity<Void> updateVehicle(@PathVariable("id") String id, @RequestBody VehicleUpsert vehicle) {
+        service.updateVehicle(id, vehicle);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public Vehicle getVehicle(@PathVariable("id") String id) {
-        return service.getVehicle(id);
+    public ResponseEntity<Vehicle> getVehicle(@PathVariable("id") String id) {
+        final var vehicle = service.getVehicle(id);
+        return ResponseEntity.ok(vehicle);
     }
 
     @GetMapping
-    public RecordsPage getVehicles(@RequestParam(required = false) String name, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-        return service.getVehicles(name, page, size);
+    public ResponseEntity<RecordsPage<Vehicle>> getVehicles(@RequestParam(required = false) String name, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        final var vehicles = service.getVehicles(name, page, size);
+        return ResponseEntity.ok(vehicles);
     }
 }

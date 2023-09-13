@@ -35,17 +35,21 @@ public class ContractController {
     }
 
     @PutMapping("/{id}")
-    public Contract updateContract(@PathVariable("id") String id, @RequestBody ContractUpsert contract) {
-        return service.updateContract(id, contract);
+    public ResponseEntity<Void> updateContract(@PathVariable("id") String id, @RequestBody ContractUpsert contract) {
+        service.updateContract(id, contract);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public Contract getContract(@PathVariable("id") String id) {
-        return service.getContract(id);
+    public ResponseEntity<Contract> getContract(@PathVariable("id") String id) {
+        final var contract = service.getContract(id);
+        return ResponseEntity.ok(contract);
     }
 
     @GetMapping
-    public RecordsPage getContracts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-        return service.getContracts(page, size);
+    public ResponseEntity<RecordsPage<Contract>> getContracts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        final var contracts = service.getContracts(page, size);
+        return ResponseEntity.ok(contracts);
     }
 }
+

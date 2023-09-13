@@ -35,17 +35,20 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public Customer updateCustomer(@PathVariable("id") String id, @RequestBody CustomerUpsert customer) {
-        return service.updateCustomer(id, customer);
+    public ResponseEntity<Void> updateCustomer(@PathVariable("id") String id, @RequestBody CustomerUpsert customer) {
+        service.updateCustomer(id, customer);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public Customer getCustomer(@PathVariable("id") String id) {
-        return service.getCustomer(id);
+    public ResponseEntity<Customer> getCustomer(@PathVariable("id") String id) {
+        final var customer = service.getCustomer(id);
+        return ResponseEntity.ok(customer);
     }
 
     @GetMapping
-    public RecordsPage getCustomers(@RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-        return service.getCustomers(firstName, lastName, page, size);
+    public ResponseEntity<RecordsPage<Customer>> getCustomers(@RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        final var customers = service.getCustomers(firstName, lastName, page, size);
+        return ResponseEntity.ok(customers);
     }
 }
