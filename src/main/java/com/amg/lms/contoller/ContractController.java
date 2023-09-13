@@ -6,6 +6,7 @@ import com.amg.lms.model.RecordsPage;
 import com.amg.lms.service.ContractService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/contracts")
@@ -22,8 +24,14 @@ public class ContractController {
     private final ContractService service;
 
     @PostMapping
-    public Contract createContract(@Valid @RequestBody ContractUpsert contract) {
-        return service.createContract(contract);
+    public ResponseEntity<Void> createContract(@Valid @RequestBody ContractUpsert contract) {
+        final var createdContract = service.createContract(contract);
+        final var location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdContract.getId())
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
