@@ -71,8 +71,10 @@ paths:
       responses:
         200:
           description: List of customers
-          schema:
-            $ref: '#/definitions/RecordsPageCustomer'
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/RecordsPageCustomer'
         400:
           description: Bad request
   /customers/{id}:
