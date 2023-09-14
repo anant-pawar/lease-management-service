@@ -19,6 +19,12 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
+
 repositories {
     mavenCentral()
 }
