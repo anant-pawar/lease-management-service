@@ -4,9 +4,8 @@ info:
   description: |-
     Provides endpoints for managing lease
     
-     Some useful links:
+    Some useful links:
      - [The Lease Management Service repository](https://github.com/anant-pawar/lease-management-service)
-
   contact:
     email: anant.c.pawar@gmail.com
   version: 0.0.1-SNAPSHOT
@@ -17,7 +16,8 @@ tags:
     description: Customer management endpoints
   - name: Vehicle
     description: Vehicle management endpoints
-
+  - name: Contract
+    description: Contract management endpoints
 paths:
   /customers:
     post:
@@ -125,6 +125,8 @@ paths:
   /vehicles:
     post:
       summary: Create a new vehicle
+      tags:
+        - Vehicle
       consumes:
         - application/json
       requestBody:
@@ -140,6 +142,8 @@ paths:
           description: Bad request
     get:
       summary: Get a list of vehicles
+      tags:
+        - Vehicle
       produces:
         - application/json
       parameters:
@@ -172,6 +176,8 @@ paths:
   /vehicles/{id}:
     get:
       summary: Get a vehicle by ID
+      tags:
+        - Vehicle
       produces:
         - application/json
       parameters:
@@ -191,6 +197,8 @@ paths:
           description: Vehicle not found
     put:
       summary: Update a vehicle by ID
+      tags:
+        - Vehicle
       consumes:
         - application/json
       parameters:
@@ -210,7 +218,127 @@ paths:
           description: Vehicle updated successfully
         400:
           description: Bad request
-
+  /contracts:
+    post:
+      summary: Create a new contract
+      tags:
+        - Contract
+      consumes:
+        - application/json
+      requestBody:
+        description: The contract to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/ContractUpsert'
+        required: true
+      responses:
+        201:
+          description: Contract created successfully
+        400:
+          description: Bad request
+    get:
+      summary: Get a list of contracts
+      tags:
+        - Contract
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: page
+          description: "Page number (default: 0)"
+          required: false
+          type: integer
+          default: 0
+        - in: query
+          name: size
+          description: "Number of contracts per page (default: 5)"
+          required: false
+          type: integer
+          default: 5
+      responses:
+        200:
+          description: List of contracts
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/RecordsPageContract'
+        400:
+          description: Bad request
+  /contracts/{id}:
+    get:
+      summary: Get a contract by ID
+      tags:
+        - Contract
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the contract
+          required: true
+          type: string
+      responses:
+        200:
+          description: The requested contract
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Contract'
+        404:
+          description: Contract not found
+    put:
+      summary: Update a contract by ID
+      tags:
+        - Contract
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the contract
+          required: true
+          type: string
+      requestBody:
+        description: The contract to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/ContractUpsert'
+      responses:
+        204:
+          description: Contract updated successfully
+        400:
+          description: Bad request
+  /contracts/overview:
+    get:
+      summary: Get an overview of contracts
+      tags:
+        - Contract
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: page
+          description: "Page number (default: 0)"
+          required: false
+          type: integer
+          default: 0
+        - in: query
+          name: size
+          description: "Number of contracts per page (default: 5)"
+          required: false
+          type: integer
+          default: 5
+      responses:
+        200:
+          description: Overview of contracts
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/RecordsPageContractOverview'
+        400:
+          description: Bad request
 definitions:
   CustomerUpsert:
     type: object
@@ -362,3 +490,151 @@ definitions:
             productionYear: 2021
             vin: 2HGFC2F53MH123456
             price: 23000.00
+  ContractUpsert:
+    type: object
+    properties:
+      contractNumber:
+        type: integer
+        format: int32
+        description: The contract number
+        example: 1001
+      monthlyRate:
+        type: number
+        format: double
+        description: The monthly rate
+        example: 450.00
+      customerId:
+        type: string
+        description: The customer ID
+        example: 1
+      vehicleId:
+        type: string
+        description: The vehicle ID
+        example: 2
+  Contract:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The contract ID
+        example: 1
+      contractNumber:
+        type: integer
+        format: int32
+        description: The contract number
+        example: 1001
+      monthlyRate:
+        type: number
+        format: double
+        description: The monthly rate
+        example: 450.00
+      vehicle:
+        $ref: '#/definitions/Vehicle'
+      customer:
+        $ref: '#/definitions/Customer'
+  RecordsPageContract:
+    type: object
+    properties:
+      currentPage:
+        type: integer
+        format: int32
+        example: 1
+      totalItems:
+        type: integer
+        format: int64
+        example: 10
+      totalPages:
+        type: integer
+        format: int32
+        example: 2
+      records:
+        type: array
+        items:
+          $ref: '#/definitions/Contract'
+        example:
+          - id: 1
+            contractNumber: 1001
+            monthlyRate: 450.00
+            vehicle:
+              id: 2
+              brand: Toyota
+              model: Corolla
+              productionYear: 2022
+              vin: 1HGCM82633A400000
+              price: 25000.00
+            customer:
+              id: 1
+              firstName: John
+              lastName: Doe
+              birthDate: 1990-01-15
+          - id: 2
+            contractNumber: 1002
+            monthlyRate: 500.00
+            # Add more contract records as needed
+  ContractOverview:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The contract ID
+        example: 1
+      contractNumber:
+        type: integer
+        format: int32
+        description: The contract number
+        example: 1001
+      customer:
+        type: string
+        description: The customer name
+        example: John Doe
+      vehicle:
+        type: string
+        description: The vehicle name
+        example: Toyota Corolla
+      vin:
+        type: string
+        description: The vehicle VIN
+        example: 1HGCM82633A400000
+      monthlyRate:
+        type: number
+        format: double
+        description: The monthly rate
+        example: 450.00
+      vehiclePrice:
+        type: number
+        format: double
+        description: The vehicle price
+        example: 25000.00
+  RecordsPageContractOverview:
+    type: object
+    properties:
+      currentPage:
+        type: integer
+        format: int32
+        example: 1
+      totalItems:
+        type: integer
+        format: int64
+        example: 10
+      totalPages:
+        type: integer
+        format: int32
+        example: 2
+      records:
+        type: array
+        items:
+          $ref: '#/definitions/ContractOverview'
+        example:
+          - id: 1
+            contractNumber: 1001
+            customer: John Doe
+            vehicle: Toyota Corolla
+            vin: 1HGCM82633A400000
+            monthlyRate: 450.00
+            vehiclePrice: 25000.00
+          - id: 2
+            contractNumber: 1002
+            customer: Jane Smith
+            vehicle: Honda Civic
+            vin: 2HGFC2F53MH123456
+            monthlyRate: 500.00
