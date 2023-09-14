@@ -23,7 +23,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class VehicleServiceTest {
+class VehicleServiceTest {
 
     private final VehicleMapper MAPPER = Mappers.getMapper(VehicleMapper.class);
     private VehicleRepository repository;
@@ -37,7 +37,7 @@ public class VehicleServiceTest {
 
     @Test
     @DisplayName("Create Vehicle Test")
-    public void testCreateVehicle() {
+    void testCreateVehicle() {
         // Arrange
         var vehicleUpsert = createVehicleUpsert();
         var vehicleEntity = MAPPER.map(vehicleUpsert);
@@ -57,7 +57,7 @@ public class VehicleServiceTest {
 
     @Test
     @DisplayName("Update Vehicle Test")
-    public void testUpdateVehicle() {
+    void testUpdateVehicle() {
         // Arrange
         var id = UUID.randomUUID().toString();
         var vehicleUpsert = createVehicleUpsert();
@@ -76,7 +76,7 @@ public class VehicleServiceTest {
 
     @Test
     @DisplayName("Get Vehicle Test")
-    public void testGetVehicle() {
+    void testGetVehicle() {
         // Arrange
         var id = UUID.randomUUID().toString();
         var vehicleEntity = createVehicleEntity(id);
@@ -95,7 +95,7 @@ public class VehicleServiceTest {
 
     @Test
     @DisplayName("Get Vehicles Test")
-    public void testGetVehicles() {
+    void testGetVehicles() {
         // Arrange
         var page = 0;
         var size = 1;

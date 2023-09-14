@@ -23,7 +23,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class ContractServiceTest {
+class ContractServiceTest {
 
     private final ContractMapper MAPPER = Mappers.getMapper(ContractMapper.class);
     private ContractRepository repository;
@@ -37,7 +37,7 @@ public class ContractServiceTest {
 
     @Test
     @DisplayName("Create Contract Test")
-    public void testCreateContract() {
+    void testCreateContract() {
         // Arrange
         var contractUpsert = createContractUpsert();
         var contractEntity = MAPPER.map(contractUpsert);
@@ -57,7 +57,7 @@ public class ContractServiceTest {
 
     @Test
     @DisplayName("Update Contract Test")
-    public void testUpdateContract() {
+    void testUpdateContract() {
         // Arrange
         var id = UUID.randomUUID().toString();
         var contractUpsert = createContractUpsert();
@@ -76,7 +76,7 @@ public class ContractServiceTest {
 
     @Test
     @DisplayName("Get Contract Test")
-    public void testGetContract() {
+    void testGetContract() {
         // Arrange
         var id = UUID.randomUUID().toString();
         var contractEntity = createContractEntity(id);
@@ -95,7 +95,7 @@ public class ContractServiceTest {
 
     @Test
     @DisplayName("Get Contracts Test")
-    public void testGetContracts() {
+    void testGetContracts() {
         // Arrange
         var page = 0;
         var size = 1;

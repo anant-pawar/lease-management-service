@@ -23,7 +23,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class CustomerServiceTest {
+class CustomerServiceTest {
 
     private final CustomerMapper MAPPER = Mappers.getMapper(CustomerMapper.class);
     private CustomerRepository repository;
@@ -37,7 +37,7 @@ public class CustomerServiceTest {
 
     @Test
     @DisplayName("Create Customer Test")
-    public void testCreateCustomer() {
+    void testCreateCustomer() {
         // Arrange
         var customerUpsert = createCustomerUpsert();
         var customerEntity = MAPPER.map(customerUpsert);
@@ -57,7 +57,7 @@ public class CustomerServiceTest {
 
     @Test
     @DisplayName("Update Customer Test")
-    public void testUpdateCustomer() {
+    void testUpdateCustomer() {
         // Arrange
         var id = UUID.randomUUID().toString();
         var customerUpsert = createCustomerUpsert();
@@ -76,7 +76,7 @@ public class CustomerServiceTest {
 
     @Test
     @DisplayName("Get Customer Test")
-    public void testGetCustomer() {
+    void testGetCustomer() {
         // Arrange
         var id = UUID.randomUUID().toString();
         var customerEntity = createCustomerEntity(id);
@@ -95,7 +95,7 @@ public class CustomerServiceTest {
 
     @Test
     @DisplayName("Get Customers Test")
-    public void testGetCustomers() {
+    void testGetCustomers() {
         // Arrange
         var page = 0;
         var size = 1;
