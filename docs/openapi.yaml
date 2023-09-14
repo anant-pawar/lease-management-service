@@ -15,6 +15,8 @@ servers:
 tags:
   - name: Customer
     description: Customer management endpoints
+  - name: Vehicle
+    description: Vehicle management endpoints
 
 paths:
   /customers:
@@ -120,6 +122,94 @@ paths:
           description: Customer updated successfully
         400:
           description: Bad request
+  /vehicles:
+    post:
+      summary: Create a new vehicle
+      consumes:
+        - application/json
+      requestBody:
+        description: The vehicle to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/VehicleUpsert'
+      responses:
+        201:
+          description: Vehicle created successfully
+        400:
+          description: Bad request
+    get:
+      summary: Get a list of vehicles
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: vin
+          description: Filter by VIN (optional)
+          required: false
+          type: string
+        - in: query
+          name: page
+          description: "Page number (default: 0)"
+          required: false
+          type: integer
+          default: 0
+        - in: query
+          name: size
+          description: "Number of vehicles per page (default: 5)"
+          required: false
+          type: integer
+          default: 5
+      responses:
+        200:
+          description: List of vehicles
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/RecordsPageVehicle'
+        400:
+          description: Bad request
+  /vehicles/{id}:
+    get:
+      summary: Get a vehicle by ID
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the vehicle
+          required: true
+          type: string
+      responses:
+        200:
+          description: The requested vehicle
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Vehicle'
+        404:
+          description: Vehicle not found
+    put:
+      summary: Update a vehicle by ID
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the vehicle
+          required: true
+          type: string
+      requestBody:
+        description: The vehicle to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/VehicleUpsert'
+      responses:
+        204:
+          description: Vehicle updated successfully
+        400:
+          description: Bad request
 
 definitions:
   CustomerUpsert:
@@ -138,7 +228,6 @@ definitions:
         format: date
         description: The customer's birth date (YYYY-MM-DD)
         example: 1990-01-15
-
   Customer:
     type: object
     properties:
@@ -159,7 +248,6 @@ definitions:
         format: date
         description: The customer's birth date (YYYY-MM-DD)
         example: 1990-01-15
-
   RecordsPageCustomer:
     type: object
     properties:
@@ -188,3 +276,89 @@ definitions:
             firstName: Jane
             lastName: Smith
             birthDate: 1985-04-20
+  VehicleUpsert:
+    type: object
+    properties:
+      brand:
+        type: string
+        description: The vehicle brand
+        example: Toyota
+      model:
+        type: string
+        description: The vehicle model
+        example: Corolla
+      productionYear:
+        type: integer
+        format: int32
+        description: The vehicle production year
+        example: 2022
+      vin:
+        type: string
+        description: The vehicle VIN
+        example: 1HGCM82633A400000
+      price:
+        type: number
+        format: double
+        description: The vehicle price
+        example: 25000.00
+  Vehicle:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The vehicle ID
+        example: 1
+      brand:
+        type: string
+        description: The vehicle brand
+        example: Toyota
+      model:
+        type: string
+        description: The vehicle model
+        example: Corolla
+      productionYear:
+        type: integer
+        format: int32
+        description: The vehicle production year
+        example: 2022
+      vin:
+        type: string
+        description: The vehicle VIN
+        example: 1HGCM82633A400000
+      price:
+        type: number
+        format: double
+        description: The vehicle price
+        example: 25000.00
+  RecordsPageVehicle:
+    type: object
+    properties:
+      currentPage:
+        type: integer
+        format: int32
+        example: 1
+      totalItems:
+        type: integer
+        format: int64
+        example: 10
+      totalPages:
+        type: integer
+        format: int32
+        example: 2
+      records:
+        type: array
+        items:
+          $ref: '#/definitions/Vehicle'
+        example:
+          - id: 1
+            brand: Toyota
+            model: Corolla
+            productionYear: 2022
+            vin: 1HGCM82633A400000
+            price: 25000.00
+          - id: 2
+            brand: Honda
+            model: Civic
+            productionYear: 2021
+            vin: 2HGFC2F53MH123456
+            price: 23000.00
