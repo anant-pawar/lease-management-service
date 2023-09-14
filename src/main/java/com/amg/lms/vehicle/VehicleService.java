@@ -51,16 +51,16 @@ public class VehicleService {
     }
 
     /**
-     * Get a paginated list of vehicles based on a name filter.
+     * Get a paginated list of vehicles based on a vin filter.
      *
-     * @param name The name filter.
+     * @param vin The vin filter.
      * @param page The page number.
      * @param size The number of vehicles per page.
      * @return A page of vehicles.
      */
-    public RecordsPage<Vehicle> getVehicles(final String name, final int page, final int size) {
+    public RecordsPage<Vehicle> getVehicles(final String vin, final int page, final int size) {
         final var paging = PageRequest.of(page, size);
-        final var pageVehicles = (name == null) ? repository.findAll(paging) : repository.findByVinContaining(name, paging);
+        final var pageVehicles = (vin == null) ? repository.findAll(paging) : repository.findByVinContaining(vin, paging);
         final var vehicles = mapper.map(pageVehicles.getContent());
 
         return RecordsPage.<Vehicle>builder()

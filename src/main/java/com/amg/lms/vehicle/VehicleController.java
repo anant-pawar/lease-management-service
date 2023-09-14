@@ -46,8 +46,8 @@ public class VehicleController {
     }
 
     @GetMapping
-    public ResponseEntity<RecordsPage<Vehicle>> getVehicles(@RequestParam(required = false) String name, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-        final var vehicles = service.getVehicles(name, page, size);
+    public ResponseEntity<RecordsPage<Vehicle>> getVehicles(@RequestParam(required = false) String vin, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        final var vehicles = service.getVehicles(vin, page, size);
         return ResponseEntity.ok(vehicles);
     }
 }
