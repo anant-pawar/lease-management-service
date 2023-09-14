@@ -1,11 +1,11 @@
 package com.amg.leasemanagementservice;
 
+import com.amg.lms.vehicle.VehicleEntity;
 import com.amg.lms.vehicle.VehicleMapper;
+import com.amg.lms.vehicle.VehicleRepository;
+import com.amg.lms.vehicle.VehicleService;
 import com.amg.lms.vehicle.model.Vehicle;
 import com.amg.lms.vehicle.model.VehicleUpsert;
-import com.amg.lms.vehicle.VehicleRepository;
-import com.amg.lms.vehicle.VehicleEntity;
-import com.amg.lms.vehicle.VehicleService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

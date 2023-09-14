@@ -2,7 +2,7 @@ package com.amg.lms.customer.model;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 public class Customer {
@@ -12,5 +12,5 @@ public class Customer {
 
     private String lastName;
 
-    private Date birthDate;
+    private LocalDate birthDate;
 }
