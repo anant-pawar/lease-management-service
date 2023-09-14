@@ -1,0 +1,167 @@
+openapi: 3.0.3
+info:
+  title: Lease Management Service
+  description: |-
+   Provides endpoints for managing lease
+    
+    Some useful links:
+    - [The Lease Management Service repository](https://github.com/anant-pawar/lease-management-service)
+
+  contact:
+    email: anant.c.pawar@gmail.com
+  version: 0.0.1-SNAPSHOT
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: Customer
+    description: Customer management endpoints
+
+paths:
+  /customers:
+    post:
+      summary: Create a new customer
+      tags:
+        - Customer
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: customer
+          description: The customer to be created
+          required: true
+          schema:
+            $ref: '#/definitions/CustomerUpsert'
+      responses:
+        201:
+          description: Customer created successfully
+        400:
+          description: Bad request
+    get:
+      summary: Get a list of customers
+      tags:
+        - Customer
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: firstName
+          description: Filter by first name (optional)
+          required: false
+          type: string
+        - in: query
+          name: lastName
+          description: Filter by last name (optional)
+          required: false
+          type: string
+        - in: query
+          name: page
+          description: "Page number (default: 0)"
+          required: false
+          type: integer
+          default: 0
+        - in: query
+          name: size
+          description: "Number of customers per page (default: 5)"
+          required: false
+          type: integer
+          default: 5
+      responses:
+        200:
+          description: List of customers
+          schema:
+            $ref: '#/definitions/RecordsPageCustomer'
+        400:
+          description: Bad request
+  /customers/{id}:
+    get:
+      summary: Get a customer by ID
+      tags:
+        - Customer
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the customer
+          required: true
+          type: string
+      responses:
+        200:
+          description: The requested customer
+          schema:
+            $ref: '#/definitions/Customer'
+        404:
+          description: Customer not found
+    put:
+      summary: Update a customer by ID
+      tags:
+        - Customer
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the customer
+          required: true
+          type: string
+        - in: body
+          name: customer
+          description: The updated customer
+          required: true
+          schema:
+            $ref: '#/definitions/CustomerUpsert'
+      responses:
+        204:
+          description: Customer updated successfully
+        400:
+          description: Bad request
+
+definitions:
+  CustomerUpsert:
+    type: object
+    properties:
+      firstName:
+        type: string
+        description: The customer's first name
+      lastName:
+        type: string
+        description: The customer's last name
+      birthDate:
+        type: string
+        format: date
+        description: The customer's birth date
+  Customer:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The customer ID
+      firstName:
+        type: string
+        description: The customer's first name
+      lastName:
+        type: string
+        description: The customer's last name
+      birthDate:
+        type: string
+        format: date
+        description: The customer's birth date
+  RecordsPageCustomer:
+    type: object
+    properties:
+      currentPage:
+        type: integer
+        format: int32
+      totalItems:
+        type: integer
+        format: int64
+      totalPages:
+        type: integer
+        format: int32
+      records:
+        type: array
+        items:
+          $ref: '#/definitions/Customer'
+
