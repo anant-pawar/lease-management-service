@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface VehicleMapper {
 
+    @Mapping(target = "id", ignore = true)
     VehicleEntity map(VehicleUpsert vehicle);
 
     @Mapping(target = "id", source = "id")

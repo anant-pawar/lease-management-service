@@ -10,6 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {
 
+    @Mapping(target = "id", ignore = true)
     CustomerEntity map(CustomerUpsert customer);
 
     @Mapping(target = "id", source = "id")

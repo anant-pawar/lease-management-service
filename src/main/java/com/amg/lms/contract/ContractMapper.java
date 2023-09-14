@@ -12,6 +12,7 @@ public interface ContractMapper {
 
     @Mapping(target = "vehicle.id", source = "vehicleId")
     @Mapping(target = "customer.id", source = "customerId")
+    @Mapping(target = "id", ignore = true)
     ContractEntity map(ContractUpsert contract);
 
     @Mapping(target = "id", source = "id")
