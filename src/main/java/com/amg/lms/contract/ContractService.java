@@ -1,6 +1,7 @@
 package com.amg.lms.contract;
 
 import com.amg.lms.contract.model.Contract;
+import com.amg.lms.contract.model.ContractOverview;
 import com.amg.lms.contract.model.ContractUpsert;
 import com.amg.lms.model.RecordsPage;
 import lombok.RequiredArgsConstructor;
@@ -63,6 +64,26 @@ public class ContractService {
         final var contracts = mapper.map(pageContract.getContent());
 
         return RecordsPage.<Contract>builder()
+                .records(contracts)
+                .totalPages(pageContract.getTotalPages())
+                .currentPage(pageContract.getNumber())
+                .totalItems(pageContract.getTotalElements())
+                .build();
+    }
+
+    /**
+     * Get a paginated list of contracts overview.
+     *
+     * @param page The page number.
+     * @param size The number of contracts per page.
+     * @return A page of contracts overview.
+     */
+    public RecordsPage<ContractOverview> getContractsOverview(final int page, final int size) {
+        final var paging = PageRequest.of(page, size);
+        final var pageContract = repository.findAll(paging);
+        final var contracts = mapper.mapContractsOverview(pageContract.getContent());
+
+        return RecordsPage.<ContractOverview>builder()
                 .records(contracts)
                 .totalPages(pageContract.getTotalPages())
                 .currentPage(pageContract.getNumber())

@@ -1,6 +1,7 @@
 package com.amg.lms.contract;
 
 import com.amg.lms.contract.model.Contract;
+import com.amg.lms.contract.model.ContractOverview;
 import com.amg.lms.contract.model.ContractUpsert;
 import com.amg.lms.model.RecordsPage;
 import jakarta.validation.Valid;
@@ -48,6 +49,12 @@ public class ContractController {
     @GetMapping
     public ResponseEntity<RecordsPage<Contract>> getContracts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
         final var contracts = service.getContracts(page, size);
+        return ResponseEntity.ok(contracts);
+    }
+
+    @GetMapping("/overview")
+    public ResponseEntity<RecordsPage<ContractOverview>> getContractsOverview(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        final var contracts = service.getContractsOverview(page, size);
         return ResponseEntity.ok(contracts);
     }
 }

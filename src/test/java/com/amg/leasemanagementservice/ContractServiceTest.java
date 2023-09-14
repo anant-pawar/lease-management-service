@@ -6,6 +6,8 @@ import com.amg.lms.contract.ContractRepository;
 import com.amg.lms.contract.ContractService;
 import com.amg.lms.contract.model.Contract;
 import com.amg.lms.contract.model.ContractUpsert;
+import com.amg.lms.customer.CustomerEntity;
+import com.amg.lms.vehicle.VehicleEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -119,9 +121,35 @@ class ContractServiceTest {
         verify(repository, times(1)).findAll(pageRequest);
     }
 
+    @Test
+    @DisplayName("Get Contracts Overview Test")
+    void testGetContractsOverview() {
+        // Arrange
+        var page = 0;
+        var size = 1;
+        var pageRequest = PageRequest.of(page, size);
+        var id = UUID.randomUUID().toString();
+        var contractEntity = createContractEntity(id);
+        var expectedContract = MAPPER.mapContractsOverview(contractEntity);
+
+        when(repository.findAll(pageRequest))
+                .thenReturn(new PageImpl<>(List.of(contractEntity)));
+
+        // Act
+        var contracts = service.getContractsOverview(page, size);
+
+        // Assert
+        assertFalse(contracts.getRecords().isEmpty(), "Returned contracts list should not be empty");
+        assertEquals(0, contracts.getCurrentPage(), "Current page should be 0");
+        assertEquals(1, contracts.getTotalPages(), "Total pages should be 1");
+        assertEquals(1, contracts.getTotalItems(), "Total items should be 1");
+        assertEquals(expectedContract, contracts.getRecords().get(0), "Retrieved contract should match the expected contract");
+        verify(repository, times(1)).findAll(pageRequest);
+    }
+
     private ContractUpsert createContractUpsert() {
         var contractUpsert = new ContractUpsert();
-        contractUpsert.setContractNumber(1);;
+        contractUpsert.setContractNumber(1);
         contractUpsert.setMonthlyRate(100.0);
         return contractUpsert;
     }
@@ -135,8 +163,30 @@ class ContractServiceTest {
     private ContractEntity createContractEntity(String id) {
         var contract = new ContractEntity();
         contract.setId(id);
-        contract.setContractNumber(1);;
+        contract.setContractNumber(1);
         contract.setMonthlyRate(100.0);
+        contract.setCustomer(createCustomerEntity());
+        contract.setVehicle(createVehicleEntity());
+
         return contract;
+    }
+
+    public CustomerEntity createCustomerEntity() {
+        var customer = new CustomerEntity();
+        customer.setId(UUID.randomUUID().toString());
+        customer.setFirstName("FIRST_FAKE");
+        customer.setLastName("LAST_FAKE");
+        return customer;
+    }
+
+    private VehicleEntity createVehicleEntity() {
+        var vehicle = new VehicleEntity();
+        vehicle.setId(UUID.randomUUID().toString());
+        vehicle.setVin("VIN_FAKE");
+        vehicle.setModel("MODEL_FAKE");
+        vehicle.setBrand("BRAND_FAKE");
+        vehicle.setPrice(10000.0);
+        vehicle.setProductionYear(2000);
+        return vehicle;
     }
 }
