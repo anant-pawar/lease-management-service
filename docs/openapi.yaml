@@ -20,19 +20,20 @@ paths:
   /customers:
     post:
       summary: Create a new customer
+      operationId: createCustomer
       tags:
         - Customer
       consumes:
         - application/json
       produces:
         - application/json
-      parameters:
-        - in: body
-          name: customer
-          description: The customer to be created
-          required: true
-          schema:
-            $ref: '#/definitions/CustomerUpsert'
+      requestBody:
+        description: The customer to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/CustomerUpsert'
+        required: true
       responses:
         201:
           description: Customer created successfully
