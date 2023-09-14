@@ -1,9 +1,8 @@
-package com.amg.lms.contoller;
+package com.amg.lms.customer;
 
-import com.amg.lms.model.Customer;
-import com.amg.lms.model.CustomerUpsert;
+import com.amg.lms.customer.model.Customer;
+import com.amg.lms.customer.model.CustomerUpsert;
 import com.amg.lms.model.RecordsPage;
-import com.amg.lms.service.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

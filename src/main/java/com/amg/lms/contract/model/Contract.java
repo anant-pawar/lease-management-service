@@ -1,6 +1,8 @@
-package com.amg.lms.model;
+package com.amg.lms.contract.model;
 
 
+import com.amg.lms.customer.model.Customer;
+import com.amg.lms.vehicle.model.Vehicle;
 import lombok.Data;
 
 @Data

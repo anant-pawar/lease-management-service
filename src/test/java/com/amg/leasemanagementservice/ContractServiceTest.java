@@ -1,11 +1,11 @@
 package com.amg.leasemanagementservice;
 
-import com.amg.lms.mapper.ContractMapper;
-import com.amg.lms.model.Contract;
-import com.amg.lms.model.ContractUpsert;
-import com.amg.lms.repository.ContractRepository;
-import com.amg.lms.repository.entities.ContractEntity;
-import com.amg.lms.service.ContractService;
+import com.amg.lms.contract.ContractMapper;
+import com.amg.lms.contract.model.Contract;
+import com.amg.lms.contract.model.ContractUpsert;
+import com.amg.lms.contract.ContractRepository;
+import com.amg.lms.contract.ContractEntity;
+import com.amg.lms.contract.ContractService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

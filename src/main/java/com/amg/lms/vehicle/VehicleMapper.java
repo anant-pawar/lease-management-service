@@ -1,8 +1,7 @@
-package com.amg.lms.mapper;
+package com.amg.lms.vehicle;
 
-import com.amg.lms.model.Vehicle;
-import com.amg.lms.model.VehicleUpsert;
-import com.amg.lms.repository.entities.VehicleEntity;
+import com.amg.lms.vehicle.model.Vehicle;
+import com.amg.lms.vehicle.model.VehicleUpsert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

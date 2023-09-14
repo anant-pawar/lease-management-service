@@ -1,10 +1,8 @@
-package com.amg.lms.service;
+package com.amg.lms.vehicle;
 
-import com.amg.lms.mapper.VehicleMapper;
 import com.amg.lms.model.RecordsPage;
-import com.amg.lms.model.Vehicle;
-import com.amg.lms.model.VehicleUpsert;
-import com.amg.lms.repository.VehicleRepository;
+import com.amg.lms.vehicle.model.Vehicle;
+import com.amg.lms.vehicle.model.VehicleUpsert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

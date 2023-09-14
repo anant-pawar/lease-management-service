@@ -1,8 +1,7 @@
-package com.amg.lms.mapper;
+package com.amg.lms.customer;
 
-import com.amg.lms.model.Customer;
-import com.amg.lms.model.CustomerUpsert;
-import com.amg.lms.repository.entities.CustomerEntity;
+import com.amg.lms.customer.model.Customer;
+import com.amg.lms.customer.model.CustomerUpsert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

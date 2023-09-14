@@ -1,6 +1,6 @@
-package com.amg.lms.repository;
+package com.amg.lms.contract;
 
-import com.amg.lms.repository.entities.ContractEntity;
+import com.amg.lms.contract.ContractEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

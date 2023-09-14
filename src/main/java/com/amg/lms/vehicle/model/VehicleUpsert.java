@@ -1,12 +1,9 @@
-package com.amg.lms.model;
+package com.amg.lms.vehicle.model;
 
 import lombok.Data;
 
 @Data
-public class Vehicle {
-
-    private String id;
-
+public class VehicleUpsert {
     private String brand;
 
     private String model;

@@ -1,4 +1,4 @@
-package com.amg.lms.model;
+package com.amg.lms.contract.model;
 
 import lombok.Data;
 

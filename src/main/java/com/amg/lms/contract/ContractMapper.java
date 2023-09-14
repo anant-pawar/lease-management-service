@@ -1,8 +1,7 @@
-package com.amg.lms.mapper;
+package com.amg.lms.contract;
 
-import com.amg.lms.model.Contract;
-import com.amg.lms.model.ContractUpsert;
-import com.amg.lms.repository.entities.ContractEntity;
+import com.amg.lms.contract.model.Contract;
+import com.amg.lms.contract.model.ContractUpsert;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

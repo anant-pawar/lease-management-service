@@ -1,11 +1,11 @@
 package com.amg.leasemanagementservice;
 
-import com.amg.lms.mapper.CustomerMapper;
-import com.amg.lms.model.Customer;
-import com.amg.lms.model.CustomerUpsert;
-import com.amg.lms.repository.CustomerRepository;
-import com.amg.lms.repository.entities.CustomerEntity;
-import com.amg.lms.service.CustomerService;
+import com.amg.lms.customer.CustomerMapper;
+import com.amg.lms.customer.model.Customer;
+import com.amg.lms.customer.model.CustomerUpsert;
+import com.amg.lms.customer.CustomerRepository;
+import com.amg.lms.customer.CustomerEntity;
+import com.amg.lms.customer.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

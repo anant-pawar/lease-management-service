@@ -1,10 +1,8 @@
-package com.amg.lms.service;
+package com.amg.lms.customer;
 
-import com.amg.lms.mapper.CustomerMapper;
-import com.amg.lms.model.Customer;
-import com.amg.lms.model.CustomerUpsert;
+import com.amg.lms.customer.model.Customer;
+import com.amg.lms.customer.model.CustomerUpsert;
 import com.amg.lms.model.RecordsPage;
-import com.amg.lms.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,8 @@
-package com.amg.lms.service;
+package com.amg.lms.contract;
 
-import com.amg.lms.mapper.ContractMapper;
-import com.amg.lms.model.Contract;
-import com.amg.lms.model.ContractUpsert;
+import com.amg.lms.contract.model.Contract;
+import com.amg.lms.contract.model.ContractUpsert;
 import com.amg.lms.model.RecordsPage;
-import com.amg.lms.repository.ContractRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

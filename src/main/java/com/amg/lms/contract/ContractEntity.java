@@ -1,5 +1,7 @@
-package com.amg.lms.repository.entities;
+package com.amg.lms.contract;
 
+import com.amg.lms.customer.CustomerEntity;
+import com.amg.lms.vehicle.VehicleEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

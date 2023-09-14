@@ -1,9 +1,8 @@
-package com.amg.lms.contoller;
+package com.amg.lms.vehicle;
 
-import com.amg.lms.model.Contract;
-import com.amg.lms.model.ContractUpsert;
 import com.amg.lms.model.RecordsPage;
-import com.amg.lms.service.ContractService;
+import com.amg.lms.vehicle.model.Vehicle;
+import com.amg.lms.vehicle.model.VehicleUpsert;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,38 +17,37 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/contracts")
+@RequestMapping("/vehicles")
 @RequiredArgsConstructor
-public class ContractController {
-    private final ContractService service;
+public class VehicleController {
+    private final VehicleService service;
 
     @PostMapping
-    public ResponseEntity<Void> createContract(@Valid @RequestBody ContractUpsert contract) {
-        final var createdContract = service.createContract(contract);
+    public ResponseEntity<Void> createVehicle(@Valid @RequestBody VehicleUpsert vehicle) {
+        final var createdVehicle = service.createVehicle(vehicle);
         final var location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(createdContract.getId())
+                .buildAndExpand(createdVehicle.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateContract(@PathVariable("id") String id, @RequestBody ContractUpsert contract) {
-        service.updateContract(id, contract);
+    public ResponseEntity<Void> updateVehicle(@PathVariable("id") String id, @RequestBody VehicleUpsert vehicle) {
+        service.updateVehicle(id, vehicle);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Contract> getContract(@PathVariable("id") String id) {
-        final var contract = service.getContract(id);
-        return ResponseEntity.ok(contract);
+    public ResponseEntity<Vehicle> getVehicle(@PathVariable("id") String id) {
+        final var vehicle = service.getVehicle(id);
+        return ResponseEntity.ok(vehicle);
     }
 
     @GetMapping
-    public ResponseEntity<RecordsPage<Contract>> getContracts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-        final var contracts = service.getContracts(page, size);
-        return ResponseEntity.ok(contracts);
+    public ResponseEntity<RecordsPage<Vehicle>> getVehicles(@RequestParam(required = false) String name, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        final var vehicles = service.getVehicles(name, page, size);
+        return ResponseEntity.ok(vehicles);
     }
 }
-

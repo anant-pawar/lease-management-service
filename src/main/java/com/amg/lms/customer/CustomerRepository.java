@@ -1,6 +1,5 @@
-package com.amg.lms.repository;
+package com.amg.lms.customer;
 
-import com.amg.lms.repository.entities.CustomerEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

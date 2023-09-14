@@ -1,4 +1,4 @@
-package com.amg.lms.repository.entities;
+package com.amg.lms.vehicle;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
