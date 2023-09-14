@@ -25,8 +25,6 @@ paths:
         - Customer
       consumes:
         - application/json
-      produces:
-        - application/json
       requestBody:
         description: The customer to be created
         content:
@@ -93,8 +91,10 @@ paths:
       responses:
         200:
           description: The requested customer
-          schema:
-            $ref: '#/definitions/Customer'
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Customer'
         404:
           description: Customer not found
     put:
@@ -109,12 +109,12 @@ paths:
           description: ID of the customer
           required: true
           type: string
-        - in: body
-          name: customer
-          description: The updated customer
-          required: true
-          schema:
-            $ref: '#/definitions/CustomerUpsert'
+      requestBody:
+        description: The customer to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/CustomerUpsert'
       responses:
         204:
           description: Customer updated successfully
