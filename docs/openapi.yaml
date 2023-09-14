@@ -2,10 +2,10 @@ openapi: 3.0.3
 info:
   title: Lease Management Service
   description: |-
-   Provides endpoints for managing lease
+    Provides endpoints for managing lease
     
-    Some useful links:
-    - [The Lease Management Service repository](https://github.com/anant-pawar/lease-management-service)
+     Some useful links:
+     - [The Lease Management Service repository](https://github.com/anant-pawar/lease-management-service)
 
   contact:
     email: anant.c.pawar@gmail.com
@@ -125,43 +125,63 @@ definitions:
       firstName:
         type: string
         description: The customer's first name
+        example: John
       lastName:
         type: string
         description: The customer's last name
+        example: Doe
       birthDate:
         type: string
         format: date
-        description: The customer's birth date
+        description: The customer's birth date (YYYY-MM-DD)
+        example: 1990-01-15
+
   Customer:
     type: object
     properties:
       id:
         type: string
         description: The customer ID
+        example: 1
       firstName:
         type: string
         description: The customer's first name
+        example: John
       lastName:
         type: string
         description: The customer's last name
+        example: Doe
       birthDate:
         type: string
         format: date
-        description: The customer's birth date
+        description: The customer's birth date (YYYY-MM-DD)
+        example: 1990-01-15
+
   RecordsPageCustomer:
     type: object
     properties:
       currentPage:
         type: integer
         format: int32
+        example: 1
       totalItems:
         type: integer
         format: int64
+        example: 10
       totalPages:
         type: integer
         format: int32
+        example: 2
       records:
         type: array
         items:
           $ref: '#/definitions/Customer'
-
+        example:
+          - id: 1
+            firstName: John
+            lastName: Doe
+            birthDate: 1990-01-15
+          - id: 2
+            firstName: Jane
+            lastName: Smith
+            birthDate: 1985-04-20
