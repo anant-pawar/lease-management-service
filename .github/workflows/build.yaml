@@ -48,4 +48,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
           force_orphan: true
-          exclude_assets: '.github,gradle,.gitignore,docs,src,README.md,Dockerfile,gradlew,gradlew.bat,build.gradle,settings.gradle'
+          exclude_assets: '.github,gradle,.gitignore,.docs,.render,src,README.md,Dockerfile,docker-compose.yaml,gradlew,gradlew.bat,build.gradle,settings.gradle'
