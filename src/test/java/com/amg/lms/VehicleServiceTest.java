@@ -1,11 +1,11 @@
-package com.amg.leasemanagementservice;
+package com.amg.lms;
 
-import com.amg.lms.customer.exception.CustomerNotFoundException;
 import com.amg.lms.vehicle.VehicleEntity;
 import com.amg.lms.vehicle.VehicleMapper;
 import com.amg.lms.vehicle.VehicleRepository;
 import com.amg.lms.vehicle.VehicleService;
 import com.amg.lms.vehicle.exception.VehicleNotFoundException;
+import com.amg.lms.vehicle.exception.VehiclePersistenceException;
 import com.amg.lms.vehicle.model.Vehicle;
 import com.amg.lms.vehicle.model.VehicleUpsert;
 import jakarta.persistence.EntityNotFoundException;
@@ -60,6 +60,23 @@ class VehicleServiceTest {
     }
 
     @Test
+    @DisplayName("Create Vehicle VehiclePersistenceException Test")
+    void testCreateVehicle_VehiclePersistenceException() {
+        // Arrange
+        var vehicleUpsert = createVehicleUpsert();
+        var vehicleEntity = MAPPER.map(vehicleUpsert);
+
+        Mockito.when(repository.save(vehicleEntity))
+                .thenThrow(RuntimeException.class);
+
+        // Act
+        Exception exception = assertThrows(VehiclePersistenceException.class, () -> service.createVehicle(vehicleUpsert));
+
+        // Assert
+        assertEquals("failed to persist vehicle", exception.getMessage());
+    }
+
+    @Test
     @DisplayName("Update Vehicle Test")
     void testUpdateVehicle() {
         // Arrange
@@ -76,6 +93,24 @@ class VehicleServiceTest {
 
         // Assert
         verify(repository, times(1)).save(vehicleEntity);
+    }
+
+    @Test
+    @DisplayName("Update Vehicle VehiclePersistenceException Test")
+    void testUpdateVehicle_VehiclePersistenceException() {
+        // Arrange
+        var id = UUID.randomUUID().toString();
+        var vehicleUpsert = createVehicleUpsert();
+        var vehicleEntity = MAPPER.map(vehicleUpsert, id);
+
+        Mockito.when(repository.save(vehicleEntity))
+                .thenThrow(RuntimeException.class);
+
+        // Act
+        Exception exception = assertThrows(VehiclePersistenceException.class, () -> service.updateVehicle(id, vehicleUpsert));
+
+        // Assert
+        assertEquals("failed to persist vehicle", exception.getMessage());
     }
 
     @Test

@@ -30,7 +30,7 @@ public class VehicleService {
             final var vehicleEntity = mapper.map(vehicle);
             final var updatedVehicleEntity = repository.save(vehicleEntity);
             return mapper.map(updatedVehicleEntity);
-        } catch (Exception exception) {
+        } catch (RuntimeException exception) {
             throw new VehiclePersistenceException(exception);
         }
     }
@@ -45,7 +45,7 @@ public class VehicleService {
         try {
             final var vehicleEntity = mapper.map(vehicle, id);
             repository.save(vehicleEntity);
-        } catch (Exception exception) {
+        } catch (RuntimeException exception) {
             throw new VehiclePersistenceException(exception);
         }
     }

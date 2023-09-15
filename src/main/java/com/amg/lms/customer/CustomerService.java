@@ -30,7 +30,7 @@ public class CustomerService {
             final var customerEntity = mapper.map(customer);
             final var updatedCustomerEntity = repository.save(customerEntity);
             return mapper.map(updatedCustomerEntity);
-        } catch (EntityNotFoundException exception) {
+        } catch (RuntimeException exception) {
             throw new CustomerPersistenceException(exception);
         }
     }
@@ -45,7 +45,7 @@ public class CustomerService {
         try {
             final var customerEntity = mapper.map(customer, id);
             repository.save(customerEntity);
-        } catch (EntityNotFoundException exception) {
+        } catch (RuntimeException exception) {
             throw new CustomerPersistenceException(exception);
         }
     }

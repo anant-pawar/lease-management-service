@@ -1,6 +1,5 @@
-package com.amg.leasemanagementservice;
+package com.amg.lms;
 
-import com.amg.lms.LeaseManagementServiceApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

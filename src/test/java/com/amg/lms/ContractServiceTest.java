@@ -1,14 +1,14 @@
-package com.amg.leasemanagementservice;
+package com.amg.lms;
 
 import com.amg.lms.contract.ContractEntity;
 import com.amg.lms.contract.ContractMapper;
 import com.amg.lms.contract.ContractRepository;
 import com.amg.lms.contract.ContractService;
 import com.amg.lms.contract.exception.ContractNotFoundException;
+import com.amg.lms.contract.exception.ContractPersistenceException;
 import com.amg.lms.contract.model.Contract;
 import com.amg.lms.contract.model.ContractUpsert;
 import com.amg.lms.customer.CustomerEntity;
-import com.amg.lms.customer.exception.CustomerNotFoundException;
 import com.amg.lms.vehicle.VehicleEntity;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,6 +62,23 @@ class ContractServiceTest {
     }
 
     @Test
+    @DisplayName("Create Contract ContractPersistenceException Test")
+    void testCreateContract_ContractPersistenceException() {
+        // Arrange
+        var contractUpsert = createContractUpsert();
+        var contractEntity = MAPPER.map(contractUpsert);
+
+        Mockito.when(repository.save(contractEntity))
+                .thenThrow(RuntimeException.class);
+
+        // Act
+        Exception exception = assertThrows(ContractPersistenceException.class, () -> service.createContract(contractUpsert));
+
+        // Assert
+        assertEquals("failed to persist contract", exception.getMessage());
+    }
+
+    @Test
     @DisplayName("Update Contract Test")
     void testUpdateContract() {
         // Arrange
@@ -78,6 +95,24 @@ class ContractServiceTest {
 
         // Assert
         verify(repository, times(1)).save(contractEntity);
+    }
+
+    @Test
+    @DisplayName("Update Contract ContractPersistenceException Test")
+    void testUpdateContract_ContractPersistenceException() {
+        // Arrange
+        var id = UUID.randomUUID().toString();
+        var contractUpsert = createContractUpsert();
+        var contractEntity = MAPPER.map(contractUpsert, id);
+
+        Mockito.when(repository.save(contractEntity))
+                .thenThrow(RuntimeException.class);
+
+        // Act
+        Exception exception = assertThrows(ContractPersistenceException.class, () -> service.updateContract(id, contractUpsert));
+
+        // Assert
+        assertEquals("failed to persist contract", exception.getMessage());
     }
 
     @Test

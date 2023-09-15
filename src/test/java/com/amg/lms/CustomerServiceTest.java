@@ -1,10 +1,11 @@
-package com.amg.leasemanagementservice;
+package com.amg.lms;
 
 import com.amg.lms.customer.CustomerEntity;
 import com.amg.lms.customer.CustomerMapper;
 import com.amg.lms.customer.CustomerRepository;
 import com.amg.lms.customer.CustomerService;
 import com.amg.lms.customer.exception.CustomerNotFoundException;
+import com.amg.lms.customer.exception.CustomerPersistenceException;
 import com.amg.lms.customer.model.Customer;
 import com.amg.lms.customer.model.CustomerUpsert;
 import jakarta.persistence.EntityNotFoundException;
@@ -59,6 +60,23 @@ class CustomerServiceTest {
     }
 
     @Test
+    @DisplayName("Create Customer CustomerPersistenceException Test")
+    void testCreateCustomer_CustomerPersistenceException() {
+        // Arrange
+        var customerUpsert = createCustomerUpsert();
+        var customerEntity = MAPPER.map(customerUpsert);
+
+        Mockito.when(repository.save(customerEntity))
+                .thenThrow(RuntimeException.class);
+
+        // Act
+        Exception exception = assertThrows(CustomerPersistenceException.class, () -> service.createCustomer(customerUpsert));
+
+        // Assert
+        assertEquals("failed to persist customer", exception.getMessage());
+    }
+
+    @Test
     @DisplayName("Update Customer Test")
     void testUpdateCustomer() {
         // Arrange
@@ -75,6 +93,24 @@ class CustomerServiceTest {
 
         // Assert
         verify(repository, times(1)).save(customerEntity);
+    }
+
+    @Test
+    @DisplayName("Update Customer CustomerPersistenceException Test")
+    void testUpdateCustomer_CustomerPersistenceException() {
+        // Arrange
+        var id = UUID.randomUUID().toString();
+        var customerUpsert = createCustomerUpsert();
+        var customerEntity = MAPPER.map(customerUpsert, id);
+
+        Mockito.when(repository.save(customerEntity))
+                .thenThrow(RuntimeException.class);
+
+        // Act
+        Exception exception = assertThrows(CustomerPersistenceException.class, () -> service.updateCustomer(id, customerUpsert));
+
+        // Assert
+        assertEquals("failed to persist customer", exception.getMessage());
     }
 
     @Test

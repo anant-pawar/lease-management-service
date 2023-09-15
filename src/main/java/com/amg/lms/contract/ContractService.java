@@ -31,7 +31,7 @@ public class ContractService {
             final var contractEntity = mapper.map(contract);
             final var createdContract = repository.save(contractEntity);
             return mapper.map(createdContract);
-        } catch (Exception exception) {
+        } catch (RuntimeException exception) {
             throw new ContractPersistenceException(exception);
         }
     }
@@ -46,7 +46,7 @@ public class ContractService {
         try {
             final var contractEntity = mapper.map(contract, id);
             repository.save(contractEntity);
-        } catch (Exception exception) {
+        } catch (RuntimeException exception) {
             throw new ContractPersistenceException(exception);
         }
     }
