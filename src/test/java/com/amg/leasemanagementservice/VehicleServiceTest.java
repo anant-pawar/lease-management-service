@@ -1,11 +1,14 @@
 package com.amg.leasemanagementservice;
 
+import com.amg.lms.customer.exception.CustomerNotFoundException;
 import com.amg.lms.vehicle.VehicleEntity;
 import com.amg.lms.vehicle.VehicleMapper;
 import com.amg.lms.vehicle.VehicleRepository;
 import com.amg.lms.vehicle.VehicleService;
+import com.amg.lms.vehicle.exception.VehicleNotFoundException;
 import com.amg.lms.vehicle.model.Vehicle;
 import com.amg.lms.vehicle.model.VehicleUpsert;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +22,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -91,6 +95,22 @@ class VehicleServiceTest {
         // Assert
         assertEquals(expectedVehicle, vehicle, "Retrieved vehicle should match the expected vehicle");
         verify(repository, times(1)).getReferenceById(id);
+    }
+
+    @Test
+    @DisplayName("Get Vehicle VehicleNotFoundException Test")
+    void testGetVehicle_VehicleNotFoundException() {
+        // Arrange
+        var id = UUID.randomUUID().toString();
+
+        Mockito.when(repository.getReferenceById(id))
+                .thenThrow(EntityNotFoundException.class);
+
+        // Act
+        Exception exception = assertThrows(VehicleNotFoundException.class, () -> service.getVehicle(id));
+
+        // Assert
+        assertEquals(String.format("vehicle with id %s not found", id), exception.getMessage());
     }
 
     @Test

@@ -4,8 +4,10 @@ import com.amg.lms.customer.CustomerEntity;
 import com.amg.lms.customer.CustomerMapper;
 import com.amg.lms.customer.CustomerRepository;
 import com.amg.lms.customer.CustomerService;
+import com.amg.lms.customer.exception.CustomerNotFoundException;
 import com.amg.lms.customer.model.Customer;
 import com.amg.lms.customer.model.CustomerUpsert;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -91,6 +94,22 @@ class CustomerServiceTest {
         // Assert
         assertEquals(expectedCustomer, customer, "Retrieved customer should match the expected customer");
         verify(repository, times(1)).getReferenceById(id);
+    }
+
+    @Test
+    @DisplayName("Get Customer CustomerNotFoundException Test")
+    void testGetCustomer_CustomerNotFoundException() {
+        // Arrange
+        var id = UUID.randomUUID().toString();
+
+        Mockito.when(repository.getReferenceById(id))
+                .thenThrow(EntityNotFoundException.class);
+
+        // Act
+        Exception exception = assertThrows(CustomerNotFoundException.class, () -> service.getCustomer(id));
+
+        // Assert
+        assertEquals(String.format("customer with id %s not found", id), exception.getMessage());
     }
 
     @Test

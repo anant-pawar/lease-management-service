@@ -4,10 +4,13 @@ import com.amg.lms.contract.ContractEntity;
 import com.amg.lms.contract.ContractMapper;
 import com.amg.lms.contract.ContractRepository;
 import com.amg.lms.contract.ContractService;
+import com.amg.lms.contract.exception.ContractNotFoundException;
 import com.amg.lms.contract.model.Contract;
 import com.amg.lms.contract.model.ContractUpsert;
 import com.amg.lms.customer.CustomerEntity;
+import com.amg.lms.customer.exception.CustomerNotFoundException;
 import com.amg.lms.vehicle.VehicleEntity;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +24,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -93,6 +97,22 @@ class ContractServiceTest {
         // Assert
         assertEquals(expectedContract, contract, "Retrieved contract should match the expected contract");
         verify(repository, times(1)).getReferenceById(id);
+    }
+
+    @Test
+    @DisplayName("Get Contract ContractNotFoundException Test")
+    void testGetContract_ContractNotFoundException() {
+        // Arrange
+        var id = UUID.randomUUID().toString();
+
+        Mockito.when(repository.getReferenceById(id))
+                .thenThrow(EntityNotFoundException.class);
+
+        // Act
+        Exception exception = assertThrows(ContractNotFoundException.class, () -> service.getContract(id));
+
+        // Assert
+        assertEquals(String.format("contract with id %s not found", id), exception.getMessage());
     }
 
     @Test

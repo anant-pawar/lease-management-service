@@ -6,6 +6,7 @@ import com.amg.lms.contract.model.Contract;
 import com.amg.lms.contract.model.ContractOverview;
 import com.amg.lms.contract.model.ContractUpsert;
 import com.amg.lms.model.RecordsPage;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -60,7 +61,7 @@ public class ContractService {
         try {
             final var contract = repository.getReferenceById(id);
             return mapper.map(contract);
-        } catch (ContractNotFoundException exception) {
+        } catch (EntityNotFoundException exception) {
             throw new ContractNotFoundException(id, exception);
         }
     }
