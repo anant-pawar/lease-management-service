@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  lms:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - app-net
+    depends_on:
+      - db
+    volumes:
+      - .m2:/root/.m2
+  db:
+    image: "mysql:8.1.0"
+    restart: always
+    ports:
+      - 3306:3306
+    networks:
+      - app-net
+    environment:
+      MYSQL_DATABASE: lms
+      MYSQL_ROOT_PASSWORD: root
+networks:
+  app-net:
