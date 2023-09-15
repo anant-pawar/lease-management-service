@@ -1,8 +1,11 @@
 package com.amg.lms.customer;
 
+import com.amg.lms.customer.exception.CustomerNotFoundException;
+import com.amg.lms.customer.exception.CustomerPersistenceException;
 import com.amg.lms.customer.model.Customer;
 import com.amg.lms.customer.model.CustomerUpsert;
 import com.amg.lms.model.RecordsPage;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -23,9 +26,13 @@ public class CustomerService {
      * @return The created customer.
      */
     public Customer createCustomer(final CustomerUpsert customer) {
-        final var customerEntity = mapper.map(customer);
-        final var updatedCustomerEntity = repository.save(customerEntity);
-        return mapper.map(updatedCustomerEntity);
+        try {
+            final var customerEntity = mapper.map(customer);
+            final var updatedCustomerEntity = repository.save(customerEntity);
+            return mapper.map(updatedCustomerEntity);
+        } catch (EntityNotFoundException exception) {
+            throw new CustomerPersistenceException(exception);
+        }
     }
 
     /**
@@ -35,8 +42,12 @@ public class CustomerService {
      * @param customer The updated customer data.
      */
     public void updateCustomer(final String id, final CustomerUpsert customer) {
-        final var customerEntity = mapper.map(customer, id);
-        repository.save(customerEntity);
+        try {
+            final var customerEntity = mapper.map(customer, id);
+            repository.save(customerEntity);
+        } catch (EntityNotFoundException exception) {
+            throw new CustomerPersistenceException(exception);
+        }
     }
 
     /**
@@ -46,8 +57,12 @@ public class CustomerService {
      * @return The retrieved customer.
      */
     public Customer getCustomer(final String id) {
-        final var customer = repository.getReferenceById(id);
-        return mapper.map(customer);
+        try {
+            final var customer = repository.getReferenceById(id);
+            return mapper.map(customer);
+        } catch (EntityNotFoundException exception) {
+            throw new CustomerNotFoundException(id, exception);
+        }
     }
 
     /**

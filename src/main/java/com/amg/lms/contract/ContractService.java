@@ -1,5 +1,7 @@
 package com.amg.lms.contract;
 
+import com.amg.lms.contract.exception.ContractNotFoundException;
+import com.amg.lms.contract.exception.ContractPersistenceException;
 import com.amg.lms.contract.model.Contract;
 import com.amg.lms.contract.model.ContractOverview;
 import com.amg.lms.contract.model.ContractUpsert;
@@ -24,9 +26,13 @@ public class ContractService {
      * @return The created contract.
      */
     public Contract createContract(final ContractUpsert contract) {
-        final var contractEntity = mapper.map(contract);
-        final var createdContract = repository.save(contractEntity);
-        return mapper.map(createdContract);
+        try {
+            final var contractEntity = mapper.map(contract);
+            final var createdContract = repository.save(contractEntity);
+            return mapper.map(createdContract);
+        } catch (Exception exception) {
+            throw new ContractPersistenceException(exception);
+        }
     }
 
     /**
@@ -36,8 +42,12 @@ public class ContractService {
      * @param contract The updated contract data.
      */
     public void updateContract(final String id, final ContractUpsert contract) {
-        final var contractEntity = mapper.map(contract, id);
-        repository.save(contractEntity);
+        try {
+            final var contractEntity = mapper.map(contract, id);
+            repository.save(contractEntity);
+        } catch (Exception exception) {
+            throw new ContractPersistenceException(exception);
+        }
     }
 
     /**
@@ -47,8 +57,12 @@ public class ContractService {
      * @return The retrieved contract.
      */
     public Contract getContract(final String id) {
-        final var contract = repository.getReferenceById(id);
-        return mapper.map(contract);
+        try {
+            final var contract = repository.getReferenceById(id);
+            return mapper.map(contract);
+        } catch (ContractNotFoundException exception) {
+            throw new ContractNotFoundException(id, exception);
+        }
     }
 
     /**

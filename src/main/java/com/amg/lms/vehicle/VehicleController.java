@@ -1,6 +1,8 @@
 package com.amg.lms.vehicle;
 
 import com.amg.lms.model.RecordsPage;
+import com.amg.lms.vehicle.exception.VehicleNotFoundException;
+import com.amg.lms.vehicle.exception.VehiclePersistenceException;
 import com.amg.lms.vehicle.model.Vehicle;
 import com.amg.lms.vehicle.model.VehicleUpsert;
 import jakarta.validation.Valid;
@@ -24,25 +26,37 @@ public class VehicleController {
 
     @PostMapping
     public ResponseEntity<Void> createVehicle(@Valid @RequestBody VehicleUpsert vehicle) {
-        final var createdVehicle = service.createVehicle(vehicle);
-        final var location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(createdVehicle.getId())
-                .toUri();
-        return ResponseEntity.created(location).build();
+        try {
+            final var createdVehicle = service.createVehicle(vehicle);
+            final var location = ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(createdVehicle.getId())
+                    .toUri();
+            return ResponseEntity.created(location).build();
+        } catch (Exception exception) {
+            throw new VehiclePersistenceException(exception);
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateVehicle(@PathVariable("id") String id, @RequestBody VehicleUpsert vehicle) {
-        service.updateVehicle(id, vehicle);
-        return ResponseEntity.noContent().build();
+        try {
+            service.updateVehicle(id, vehicle);
+            return ResponseEntity.noContent().build();
+        } catch (Exception exception) {
+            throw new VehiclePersistenceException(exception);
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Vehicle> getVehicle(@PathVariable("id") String id) {
-        final var vehicle = service.getVehicle(id);
-        return ResponseEntity.ok(vehicle);
+        try {
+            final var vehicle = service.getVehicle(id);
+            return ResponseEntity.ok(vehicle);
+        } catch (VehicleNotFoundException exception) {
+            throw new VehicleNotFoundException(id, exception);
+        }
     }
 
     @GetMapping
