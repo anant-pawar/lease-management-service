@@ -2,7 +2,7 @@
 ![Code Coverage](https://sonarcloud.io/api/project_badges/measure?project=lease-management-service&metric=coverage)
 
 # Lease Management Service
-Service for managing Lease 
+Service for managing Vehicle Leasing 
 
 ![Lease Management](https://media.giphy.com/media/mIMsLsQTJzAn6/giphy.gif)
 
