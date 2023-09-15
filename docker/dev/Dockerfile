@@ -1,0 +1,9 @@
+FROM gradle:4.7.0-jdk8-alpine AS build
+WORKDIR /app
+COPY . .
+RUN gradle clean build -x test
+
+FROM eclipse-temurin:17-jdk-alpine
+COPY --from=build /app/build/libs/lease-management-service-*.jar /app.jar
+EXPOSE 8080
+CMD ["java", "-jar", "/app.jar", "-Dspring.profiles.active=dev"]

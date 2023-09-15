@@ -76,7 +76,7 @@ public class ContractService {
      *
      * @param page The page number.
      * @param size The number of contracts per page.
-     * @return A page of contracts overview.
+     * @return A page of contracts overviews.
      */
     public RecordsPage<ContractOverview> getContractsOverview(final int page, final int size) {
         final var paging = PageRequest.of(page, size);
@@ -91,4 +91,3 @@ public class ContractService {
                 .build();
     }
 }
-
