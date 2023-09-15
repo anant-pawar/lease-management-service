@@ -37,6 +37,7 @@ Few key language and frameworks
 
 # Service documentation
 * Service documentation built and hosted using GitHub Actions and Pages : [Lease Management Service API](https://anant-pawar.github.io/lease-management-service)
+* Postman collection for testing : [Lease Management Service Postman Collection.json](.docs%2FLease%20Management%20Service%20Postman%20Collection.json)
 
 # Quality and Coverage
 * Integrated with SonarCloud using GitHub Actions to generate quality and coverage report : [Quality and Coverage Report](https://sonarcloud.io/project/overview?id=lease-management-service) 
