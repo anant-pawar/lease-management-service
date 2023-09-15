@@ -24,6 +24,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  deploy:
+    name: Deploy Service
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Render
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE }}
+          api-key: ${{ secrets.RENDER_TOKEN }}
   build-docs:
     name: Build Documentation
     needs: build
