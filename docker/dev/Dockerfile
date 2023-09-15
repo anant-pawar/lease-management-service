@@ -1,4 +1,4 @@
-FROM gradle:4.7.0-jdk8-alpine AS build
+FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
 COPY . .
 RUN gradle clean build -x test
