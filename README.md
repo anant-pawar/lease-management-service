@@ -8,7 +8,7 @@ Service for managing Lease
 
 # Simple Design
 * Provides REST endpoints for 
-  * Managing vehicles.
+  * Managing Vehicles.
   * Managing Customers.
   * Managing Contracts.
 
